@@ -1,0 +1,17 @@
+locbench_root: data/locbench
+# TorchSpatial per-sample eval CSVs (TorchSpatial eval_results/classification, commit ac7dbcf).
+torchspatial_eval_dir: data/locbench/torchspatial_eval
+cache_dir: outputs/cache
+
+# Manvi et al. (Track 2): GeoLLM prompt files (GeoLLM prompts/, commit e5bdd45) and
+# ground-truth rasters (scripts/download_manvi_rasters.sh).
+manvi_prompt_dir: data/manvi/prompts
+manvi_raster_dir: data/manvi/rasters
+
+# Raw image roots (not part of LocBench; fill in once images are downloaded).
+# Each dataset's image_ref is resolved relative to its root.
+image_roots:
+  fmow: data/images/fmow       # fMoW-rgb root containing val/<category>/<instance>/...
+  yfcc: data/images/yfcc       # YFCC100M_GEO100 root containing <class>/<photo_id>.jpg
+  inat_2017: data/images/inat_2017  # root containing train_val_images/...
+  inat_2018: data/images/inat_2018  # root containing train_val2018/...

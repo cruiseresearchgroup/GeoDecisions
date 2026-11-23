@@ -1,0 +1,23 @@
+model:
+  kind: glide
+  name: glide-v1.2
+  repo: fastino/GLiDE
+  revision: d199b6d7e04523d87986b8b68cd62272ed1cefc0
+  device: cuda
+  max_len: 40000
+  token_budget: 16384
+  prepare_workers: 16
+
+run:
+  out_dir: outputs/runs_order
+  seeds: [1, 2]
+  chunk_size: 1024
+
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20
+  subsample: 2000
+  subsample_seed: 0
+  original_order: [fmow, yfcc]

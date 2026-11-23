@@ -1,0 +1,33 @@
+model:
+  kind: openai_decisions
+  name: gpt-6-luna-decisions
+  model: gpt-6-luna      # the only model the Decisions API accepts
+  max_concurrency: 16    # parallel requests; Decisions rate limits are not published
+  timeout_s: 120
+  max_retries: 8
+  score_as_choice: true
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds
+  chunk_size: 256     # requests per chunk; results flushed after each (a failed chunk is re-sent on resume)
+
+# Track 1. Fixed 2k spatial subsample per dataset (same items for every model; pplx/GLiDE cover them).
+# Pricing $0.10/M input tokens (+10% regional premium may apply): ~$8-11 for this config,
+# ~$40-90 with subsample: null (image token count per image is not published).
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: 2000
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2. 2,000 locations x 11 topics per format (~60M of the ~77M tokens).
+manvi:
+  locations: world
+  topics: all
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

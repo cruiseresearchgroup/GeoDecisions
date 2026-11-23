@@ -1,0 +1,32 @@
+model:
+  kind: jev_sdk # src/modules/jev.py (official typesafe-sdk); supports images (opt-in header)
+  name: jev-1.14
+  model: jev-1.14.0 # versioned ID; jev-latest is an alias that moves between releases
+  max_concurrency: 8 # parallel API calls; the SDK retries 429/529 with backoff
+  # needs TYPESAFE_API_KEY (e.g. `set -a; source .env; set +a`)
+
+run:
+  out_dir: outputs/runs
+  seeds: [0] # option-shuffle seeds; add more for order-sensitivity analysis
+  chunk_size: 256 # requests per call; results flushed to disk after each (a failed chunk is re-sent on resume)
+
+# Track 1. Fixed 2k spatial subsample per dataset (same items as GPT-6 Luna).
+# $0.042/M input tokens: 32,000 requests, 37.5M tokens, $1.57 (2026-11-11). Images outside Jev's limits are
+# resized as for KnowLine (src/modules/knowline.jev_image).
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20 # iNat only: top-20 classes from the image-only model
+  subsample: 2000
+  subsample_seed: 0
+  null_input: { subsample: 2000 }
+
+# Track 2. Jev's Score takes at most 10 levels, so the 100-point 0.0-9.9 scale is
+# sent as a Choice over the levels (in order; scores are never shuffled).
+manvi:
+  locations: world # GeoLLM world_prompts.jsonl (2,000 locations)
+  topics: all # 6 objective + 5 subjective
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

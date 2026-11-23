@@ -1,0 +1,32 @@
+model:
+  kind: label_readout
+  name: qwen3.8-27b
+  repo: Qwen/Qwen3.8-27B  # base of pplx-decider-v1.2 and GLiDE
+  revision: 1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
+  url: http://127.0.0.1:9280  # SGLang server started by scripts/run_label_readout.sh
+  max_concurrency: 32
+  # Shared prompt and labels for both base models: src/modules/label_readout.py, configs/base_readout_labels.json.
+  # env: jevgeo-sglang
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds
+  chunk_size: 1024
+
+# Track 1. Same items as the decision models.
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: null       # every item
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2. 100 levels listed as labelled options, as for the decision models.
+manvi:
+  locations: world
+  topics: all
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

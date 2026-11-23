@@ -1,0 +1,33 @@
+model:
+  kind: gliclass
+  name: gliclass-v4-edge
+  repo: knowledgator/gliclass-v4-edge
+  revision: 885af1af8a07edf4ed34df83ca0d995ed8201283  # snapshot all results were produced with
+  device: cuda
+  dtype: bfloat16
+  max_length: 16384     # model card's Jev setup; longer inputs are refused, not truncated
+  batch_size: 16
+  # env: jevgeo-gliclass (gliclass 0.1.21, transformers 5.20, torch 2.14)
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds
+  chunk_size: 1024
+
+# Track 1. Text-only encoder: location-only and null-input conditions; same items as pplx/GLiDE.
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: null       # every item
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2. Score questions are 100-level (0.0-9.9) labels, as for pplx/GLiDE.
+manvi:
+  locations: world
+  topics: all
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

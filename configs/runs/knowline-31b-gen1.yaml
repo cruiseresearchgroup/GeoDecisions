@@ -1,0 +1,30 @@
+model:
+  kind: knowline
+  name: knowline-31b-gen1
+  model: PelaAI/KnowLine-31B-Gen1  # revision 8f052a8130e599b53e5324c34f0f5ff90696e1c6, served by scripts/run_knowline.sh
+  url: http://127.0.0.1:8080/v1/systemone  # release front end: read twice on, temperatures.json (score / 0.6944)
+  max_concurrency: 32
+  # env: jevgeo-sglang (sglang 0.5.21, transformers 5.12.1, torch 2.13)
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds
+  chunk_size: 1024
+
+# Track 1. Same items as pplx-decider-v1.2 and GLiDE. Images resized only when outside Jev 1.14's limits.
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: null       # every item
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2. 100-level score (the front end allows up to 255 levels), as for pplx/GLiDE.
+manvi:
+  locations: world
+  topics: all
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

@@ -1,0 +1,25 @@
+# Core environment: data pipeline, metrics, geo-bias reports, tests, downloads.
+# Versions match the ones the results were produced with (Python 3.11).
+#   micromamba create -f envs/jevgeo.yml && micromamba run -n jevgeo pip install -e . --no-deps
+name: jevgeo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=2.2
+  - scipy=1.16
+  - pandas=3.0
+  - scikit-learn=1.8
+  - pyyaml=6.0
+  - tqdm=4.67
+  - pillow=12.1
+  - rasterio=1.4
+  - gdal=3.9          # gdalbuildvrt / gdal_translate for scripts/download_manvi_rasters.sh
+  - pytest=9.0
+  - httpx             # closed-API clients (src/modules/api.py)
+  - python-dotenv     # API keys from .env
+  - awscli            # S3 image downloads (scripts/download_images.sh)
+  - pytorch=2.7       # only for torch.utils.data.Dataset and the HF option scorer
+  - transformers=4.57
+  - huggingface_hub   # model weights, `hf auth login`
+  - pip

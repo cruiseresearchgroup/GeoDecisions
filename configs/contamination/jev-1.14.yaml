@@ -1,0 +1,38 @@
+# Data contamination checks 2 and 3 (_papers/DATA_CONTAMINATION.md). Model block copied from configs/runs/.
+# Quiz only: --only quiz. Rewording only: --only manvi.
+
+model:
+  kind: jev_sdk         # src/modules/jev.py (typesafe-sdk); LocBench: configs/runs/jev-1.14.0.yaml
+  name: jev-1.14
+  model: jev-1.14.0     # versioned ID; jev-latest is an alias that moves between releases
+  max_concurrency: 8    # parallel API calls; the SDK retries 429/529 with backoff
+  # needs TYPESAFE_API_KEY (e.g. `set -a; source .env; set +a`)
+
+run:
+  out_dir: outputs/runs_contamination
+  seeds: [0]
+  chunk_size: 256
+
+# Check 2: data contamination quiz (src/data/contamination.py). 1 template + 200 instance + 200 control
+# items, each asked with the original in all 4 positions: 4 + 8 x 200 requests, sent unshuffled.
+quiz:
+  locations: world
+  n_instances: 200
+  seed: 0
+
+# Check 3: template rewording (src/modules/prompts.py MANVI_VARIANTS) on a fixed 500-location subsample.
+# 5 variants x 2 formats x 7 topics x 500 locations = 35,000 requests.
+manvi:
+  locations: world
+  subsample: 500
+  subsample_seed: 0
+  location_formats: [coords, place_name]
+  topics:
+    - Average Intelligence of Residents
+    - Average Work Ethic of Residents
+    - Average Morality of Residents
+    - Average Likability of Residents
+    - Average Attractiveness of Residents
+    - Average Temperature
+    - Infant Mortality Rate
+  variants: [original, reworded, synonyms, scale5, reversed]

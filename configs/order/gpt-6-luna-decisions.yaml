@@ -1,0 +1,22 @@
+model:
+  kind: openai_decisions
+  name: gpt-6-luna-decisions
+  model: gpt-6-luna
+  max_concurrency: 16
+  timeout_s: 120
+  max_retries: 8
+  score_as_choice: true
+
+run:
+  out_dir: outputs/runs_order
+  seeds: [1, 2]
+  chunk_size: 256
+
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20
+  subsample: 2000
+  subsample_seed: 0
+  original_order: [fmow, yfcc]

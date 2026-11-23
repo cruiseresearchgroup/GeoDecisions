@@ -1,0 +1,33 @@
+model:
+  kind: glide
+  name: glide-v1.2
+  repo: fastino/GLiDE
+  revision: d199b6d7e04523d87986b8b68cd62272ed1cefc0  # snapshot all results were produced with
+  device: cuda
+  max_len: 40000        # model card default (validated)
+  token_budget: 16384   # padded tokens per micro-batch (model card default)
+  prepare_workers: 16   # CPU threads for image decode/resize
+  # env: jevgeo-pplx (same validated stack: torch 2.14, transformers 5.17, flash-linear-attention 0.5.2)
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds; add more for order-sensitivity analysis
+  chunk_size: 1024    # requests per decide call; results flushed to disk and progress updated after each
+
+# Track 1. Same items as pplx-decider-v1.2.
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: null       # null = every item
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2.
+manvi:
+  locations: world      # GeoLLM world_prompts.jsonl (2,000 locations)
+  topics: all           # 6 objective + 5 subjective
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

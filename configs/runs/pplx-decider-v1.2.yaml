@@ -1,0 +1,33 @@
+model:
+  kind: pplx_decider
+  name: pplx-decider-v1.2
+  repo: perplexity-ai/pplx-decider-v1.2
+  revision: cce0f3f80033e9d89d80831d5281fd72124aacce  # snapshot all results were produced with
+  device: cuda
+  # Packed fast path, one static 32k pack shape + CUDA graphs (model card: best offline throughput).
+  fast: {buckets: [32768]}
+  max_length: 32768  # training length; longer requests are split, never truncated
+  warmup: true
+
+run:
+  out_dir: outputs/runs
+  seeds: [0]          # option-shuffle seeds; add more for order-sensitivity analysis
+  chunk_size: 1024    # requests per decide call; results flushed to disk and progress updated after each
+
+# Track 1. Image conditions need raw images (scripts/download_images.sh); place_name needs reverse geocoding.
+locbench:
+  datasets: [fmow, yfcc, inat_2017, inat_2018]
+  conditions: [location_only, image_only, image_location]
+  location_formats: [coords]
+  shortlist_k: 20       # iNat only: top-20 classes from the image-only model
+  subsample: null       # null = every item; set 2000 for the agreed budget
+  subsample_seed: 0
+  null_input: {subsample: 2000}
+
+# Track 2.
+manvi:
+  locations: world      # GeoLLM world_prompts.jsonl (2,000 locations)
+  topics: all           # 6 objective + 5 subjective
+  location_formats: [full, coords, place_name]
+  scales: ["0.0-9.9"]
+  null_input: true

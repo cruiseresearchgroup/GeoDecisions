@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jevgeobias"
+version = "0.1.0"
+description = "Geographic bias in Jev-style decision models: LocBench and Manvi et al. benchmarks"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "scikit-learn>=1.3",
+    "torch>=2.1",
+    "pyyaml>=6.0",
+    "tqdm>=4.60",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+hf = ["transformers>=4.40"]
+api = ["httpx>=0.27", "python-dotenv>=1.0"]
+raster = ["rasterio>=1.3"]
+jev = ["typesafe-sdk[pil]>=0.7.5"]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "data: needs the LocBench data under data/locbench (skipped when absent)",
+]
