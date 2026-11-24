@@ -7,11 +7,12 @@
 <sup>1</sup> University of New South Wales, Sydney, Australia<br/>
 <sup>2</sup> Hong Kong University of Science and Technology (Guangzhou), China
 
+[![arXiv](https://img.shields.io/badge/arXiv-2611.30564-b31b1b.svg)](https://arxiv.org/abs/2611.30564)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
 [![Benchmark: GeoDecisions](https://img.shields.io/badge/Benchmark-GeoDecisions-orange.svg)](#overview)
 
-[Overview](#overview) · [Installation](#installation) · [Supported Models](#supported-models) · [Running Experiments](#running-experiments) · [Results](#results) · [Acknowledgements](#acknowledgements--credits) · [License](#license)
+[Overview](#overview) · [Installation](#installation) · [Supported Models](#supported-models) · [Running Experiments](#running-experiments) · [Results](#results) · [Citation](#citation) · [Acknowledgements](#acknowledgements--credits) · [License](#license)
 
 </div>
 
@@ -296,16 +297,19 @@ Closed-source models are omitted, as their 2,000-sample subsets are too sparse f
 | `GPT-6 Luna`        | **−0.04** / <u>−0.05</u> / <u>−0.05</u> |  −0.25 / −0.24 / **−0.17**   | <u>−0.02</u> / **−0.01** / **−0.01** | −0.09 / <u>−0.05</u> / −0.06 | <u>−0.01</u> / <u>−0.01</u> / <u>−0.01</u> |
 | `Jev-1.14`          |          −0.43 / −0.63 / −0.64          | <u>−0.23</u> / −0.26 / −0.28 |        −0.16 / −0.19 / −0.18         |    −0.13 / −0.14 / −0.13     |           −0.15 / −0.19 / −0.19            |
 
-<!-- ## Citation
+## Citation
+
+If you use GeoDecisions in your research, please cite our paper:
 
 ```bibtex
-@misc{wongso2026seeing,
-  title  = {Seeing Is Locating: Spatial Awareness and Geographic Bias in Decision Language Models},
-  author = {Wongso, Wilson and Muhammad, Hada Melino and Lin, Xiachong and Xue, Hao and Salim, Flora D.},
-  year   = {2026},
-  url    = {https://github.com/w11wo/JevGeoBias}
+@article{wongso2026seeing,
+  title   = {Seeing Is Locating: Spatial Awareness and Geographic Bias in Decision Language Models},
+  author  = {Wongso, Wilson and Muhammad, Hada Melino and Lin, Xiachong and Xue, Hao and Salim, Flora D.},
+  journal = {arXiv preprint arXiv:2611.30564},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2611.30564}
 }
-``` -->
+```
 
 ## Acknowledgements & Credits
 
